@@ -1,11 +1,7 @@
-import json
-from typing import List, Optional
-from bson import ObjectId
-from fastapi.responses import JSONResponse
+from typing import List
 from mongoengine import *
 from fastapi import *
-from pydantic import BaseModel, EmailStr
-from uuid import uuid4, UUID
+from pydantic import BaseModel
 
 app = FastAPI()
 
@@ -22,20 +18,14 @@ class UserSchema(BaseModel):
     first_name: str
     last_name: str
 
-class CommentSchema(BaseModel):
-    name: str
-    content: str
-
-class PostSchema(BaseModel):
-    title: str
-    author: UserSchema
-    tags: List[str]
-    comments: List[CommentSchema]
-
 
 class Comment(EmbeddedDocument):
     content = StringField()
     name = StringField(max_length=120)
+
+class CommentSchema(BaseModel):
+    name: str
+    content: str
 
 class Post(Document):
     title = StringField(max_length=120, required=True)
@@ -44,6 +34,13 @@ class Post(Document):
     comments = ListField(EmbeddedDocumentField(Comment))
 
     meta = {"allow_inheritance": True}
+
+class PostSchema(BaseModel):
+    title: str
+    author: UserSchema
+    tags: List[str]
+    comments: List[CommentSchema]
+
 
 class TextPost(Post):
     content = StringField()
