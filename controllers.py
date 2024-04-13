@@ -16,8 +16,8 @@ class Controllers:
     async def root():
         return {"Hello THERE"}
     
-
-    async def list_users(token: Annotated[str, Depends(oauth2_scheme)]):
+# token: Annotated[str, Depends(oauth2_scheme)]
+    async def list_users():
         try:
             users = User.objects.all()
             user_data = []
@@ -49,7 +49,7 @@ class Controllers:
         posts = Post.objects.all()
         post_data = []
         for post in posts:
-            author_data = UserSchema(
+            author_data = UserResponseSchema(
                 id=str(post.author.id),
                 email=post.author.email,
                 first_name=post.author.first_name,
@@ -76,36 +76,22 @@ class Controllers:
                 "author": author_data,
                 "tags": post.tags,
                 "comments": comments_data,
-                # "content": contents_data,
-                # "image_path": content_data.image_path if isinstance(content_data, ImagePostSchema) else None,
-                # "link_url": content_data.link_url if isinstance(content_data, LinkPostSchema) else None
             })
         return post_data
     
-    
-    async def create_post(post_data: PostSchema):
-        # Convert Pydantic schema to MongoDB Document
+
+    async def create_post(post_data: CreatePostSchema):
         author_data = post_data.author
         author = User(first_name=author_data.first_name, last_name=author_data.last_name, email=author_data.email)
         author.save()  # Save the author to the database first
 
-        # comment_data = post_data.comments
-        # comments = [Comment(name=comment_data.)]
-
         post = Post(title=post_data.title, author=author, tags=post_data.tags)
 
-        # Convert comment data
-        # Convert comment data
         comments = []
         for comment_data in post_data.comments:
-            # Check if comment text exists
             if comment_data.content:
                 comments.append(Comment(content=comment_data.content, name=comment_data.name))
         post.comments = comments
-        # comments = [Comment(content=comment.content) for comment in post_data.comments]
-        # post.comments = comments
-
-        # Save post to database
         post.save()
 
         return {"message": "Post created successfully"}
