@@ -1,5 +1,5 @@
 from fastapi import *
-from typing import Annotated, List
+from typing import Annotated
 from mongoengine import *
 from fastapi import *
 from fastapi.security import *
@@ -28,8 +28,8 @@ class Controllers:
                     "first_name": user.first_name,
                     "last_name": user.last_name
                 })
-            # return user_data
-            return {"token": token}
+            return user_data
+            # return {"token": token}
         except Exception as e:
             raise HTTPException(status_code=500, detail=str(e))
         
@@ -81,6 +81,8 @@ class Controllers:
                 # "link_url": content_data.link_url if isinstance(content_data, LinkPostSchema) else None
             })
         return post_data
+    
+    
     async def create_post(post_data: PostSchema):
         # Convert Pydantic schema to MongoDB Document
         author_data = post_data.author
