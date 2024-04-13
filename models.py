@@ -1,9 +1,6 @@
-from typing import Annotated, List, Optional
 from mongoengine import *
 from fastapi import *
-from pydantic import BaseModel
 from fastapi.security import *
-from fastapi import HTTPException
 
 
 class User(Document):
