@@ -16,7 +16,7 @@ router.get("/",
 
 
 router.get("/users",
-        response_model=List[UserSchema],
+        response_model=List[UserResponseSchema],
         status_code=status.HTTP_200_OK
         )(Controllers.list_users)
 
@@ -26,7 +26,7 @@ router.get("/user/{user_id}",
            )(Controllers.delete_user)
 
 
-router.get("/posts/", response_model=List[PostSchema],
+router.get("/posts/", response_model=List[ListPostSchema],
            status_code=status.HTTP_200_OK,
            )(Controllers.list_posts)
 
