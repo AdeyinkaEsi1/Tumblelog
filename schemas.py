@@ -1,12 +1,26 @@
-from typing import List
+from typing import List, Optional, Union
 from pydantic import *
 
 
 class UserSchema(BaseModel):
-    id: str
+    # id: Union[str, None]
     email: str
     first_name: str
     last_name: str
+
+
+class CreateUserSchema(UserSchema):
+    pass
+
+
+class UserResponseSchema(UserSchema):
+    id: str
+
+
+class UpdateUserSchema(UserSchema):
+    email: Optional[str] = None
+    first_name: Optional[str] = None
+    last_name: Optional[str] = None
 
 
 class CommentSchema(BaseModel):
@@ -14,14 +28,20 @@ class CommentSchema(BaseModel):
     content: str
 
 
-class PostSchema(BaseModel):
+class CreatePostSchema(BaseModel):
     title: str
-    author: UserSchema
+    author: CreateUserSchema
     tags: List[str]
     comments: List[CommentSchema]
     # content: Optional[TextPostSchema]
     # image_path: Optional[ImagePostSchema]
     # link_url: Optional[LinkPostSchema]
+
+class ListPostSchema(BaseModel):
+    title: str
+    author: UserResponseSchema
+    tags: List[str]
+    comments: List[CommentSchema]
 
 
 class TextPostSchema(BaseModel):
