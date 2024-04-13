@@ -1,16 +1,11 @@
-from typing import Annotated, List
 from mongoengine import *
 from fastapi import *
 from fastapi.security import *
-from fastapi import HTTPException
 from main import *
 from schemas import *
 from models import *
 from controllers import Controllers
 
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
-
-app = FastAPI()
 
 router = FastAPI()
 
