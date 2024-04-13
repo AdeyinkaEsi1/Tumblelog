@@ -87,9 +87,11 @@ async def list_users(token: Annotated[str, Depends(oauth2_scheme)]):
                 "first_name": user.first_name,
                 "last_name": user.last_name
             })
-        return user_data
+        # return user_data
+        return {"token": token}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
+    
 
 
 @app.get("/user/{user_id}")
