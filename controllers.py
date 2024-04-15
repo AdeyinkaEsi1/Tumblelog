@@ -16,23 +16,42 @@ class Controllers:
     async def root():
         return {"Hello THERE"}
     
+    async def authenticate_user(username: str, password: str):
+        user = User.objects(email=username).first()
+        if not user:
+            raise HTTPException(status_code=401, detail="Invalid username or password")
+        return user
+
+
+    async def login(username: str, password: str):
+        user = await Controllers.authenticate_user(username, password)
+        return {"detail": "Login successful"}
+    
+    # async def login(form_data: Annotated[OAuth2PasswordRequestForm, Depends()]):
+    #     user = User.objects(email=form_data.username).first()
+    #     if user:
+    #         return {"detail": "Login successful"}
+    #     raise HTTPException(status_code=400, detail="Incorrect username or password")
+
+     
 # token: Annotated[str, Depends(oauth2_scheme)]
-    async def list_users():
-        try:
-            users = User.objects.all()
-            user_data = []
-            for user in users:
-                user_data.append({
-                    "id": str(user.id),  # Convert ObjectId to string
-                    "email": user.email,
-                    "first_name": user.first_name,
-                    "last_name": user.last_name
-                })
-            return user_data
-            # return {"token": token}
-        except Exception as e:
-            raise HTTPException(status_code=500, detail=str(e))
-        
+    async def list_users(username: str = Depends(authenticate_user)):
+        if Controllers.login:
+            try:
+                users = User.objects.all()
+                user_data = []
+                for user in users:
+                    user_data.append({
+                        "id": str(user.id),  # Convert ObjectId to string
+                        "email": user.email,
+                        "first_name": user.first_name,
+                        "last_name": user.last_name
+                    })
+                return user_data
+                # return {"token": token}
+            except Exception as e:
+                raise HTTPException(status_code=500, detail=str(e))
+            
     
     async def delete_user(user_id: str):
         try:
