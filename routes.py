@@ -16,7 +16,7 @@ router.get("/",
            )(Controllers.root)
 
 
-router.get("/auth/login",
+router.post("/auth/login",
            status_code=status.HTTP_200_OK
            )(Controllers.login)
 
