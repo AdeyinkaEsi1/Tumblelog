@@ -6,12 +6,19 @@ from schemas import *
 from models import *
 from controllers import Controllers
 
+APIRouter
 
 router = FastAPI()
+
 
 router.get("/",
            status_code=status.HTTP_200_OK
            )(Controllers.root)
+
+
+router.get("/auth/login",
+           status_code=status.HTTP_200_OK
+           )(Controllers.login)
 
 
 
