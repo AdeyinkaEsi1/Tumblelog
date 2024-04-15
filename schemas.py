@@ -10,6 +10,7 @@ class UserSchema(BaseModel):
 
 
 class CreateUserSchema(UserSchema):
+    password: str
     pass
 
 
