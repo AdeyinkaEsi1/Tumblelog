@@ -15,6 +15,10 @@ router.get("/",
            status_code=status.HTTP_200_OK
            )(Controllers.root)
 
+router.post("/auth/sign_up",
+           status_code=status.HTTP_201_CREATED
+           )(Controllers.sign_up)
+
 
 router.post("/auth/login",
            status_code=status.HTTP_200_OK
