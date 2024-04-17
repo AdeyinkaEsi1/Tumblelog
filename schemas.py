@@ -3,7 +3,6 @@ from pydantic import *
 
 
 class UserSchema(BaseModel):
-    # id: Union[str, None]
     email: EmailStr
     first_name: str
     last_name: str
@@ -31,7 +30,7 @@ class CommentSchema(BaseModel):
 
 class CreatePostSchema(BaseModel):
     title: str
-    email: EmailStr
+    author: UserSchema
     tags: List[str]
     comments: List[CommentSchema]
     # content: Optional[TextPostSchema]
