@@ -4,7 +4,7 @@ from pydantic import *
 
 class UserSchema(BaseModel):
     # id: Union[str, None]
-    email: str
+    email: EmailStr
     first_name: str
     last_name: str
 
@@ -31,7 +31,7 @@ class CommentSchema(BaseModel):
 
 class CreatePostSchema(BaseModel):
     title: str
-    author: CreateUserSchema
+    email: EmailStr
     tags: List[str]
     comments: List[CommentSchema]
     # content: Optional[TextPostSchema]
