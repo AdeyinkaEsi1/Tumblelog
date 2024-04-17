@@ -3,6 +3,17 @@ from mongoengine import *
 connect("tumbledb")
 
 
+"""
+first user in db
+{
+"email": "idayat@example.com",
+"first_name": "idayat",
+"last_name": "yusuf",
+"password": "idlove"
+}
+    """
+
+
 # =============================================
 
 # john = User(email='john@example.com', first_name='john', last_name='Lawley')
